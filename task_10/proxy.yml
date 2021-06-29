@@ -1,0 +1,18 @@
+- hosts: my_lb
+  vars:
+          - frontend_port: 80
+          - backend_port: 8080
+  tasks:
+          - name: installing haproxy
+            package:
+                    name: haproxy
+                    state: present
+
+          - name: copying haproxy.cfg
+            template:
+                    src: haproxy.cfg
+                    dest: /etc/haproxy/haproxy.cfg
+          - name: starting services
+            service:
+                    name: haproxy
+                    state: restarted

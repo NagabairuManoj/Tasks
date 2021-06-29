@@ -1,0 +1,28 @@
+- hosts: docker
+  tasks:
+          - name: copying dockerfile
+            copy:
+                    src: Dockerfile
+                    dest: /dws/
+          - name: copying hi.html
+            copy:
+                    src: hi.html
+                    dest: /dws/
+          - name: creating image
+            docker_image:
+                    name: myos3
+                    build:
+                            pull: yes
+                            path: /dws/
+                    state: present
+                    source: build
+          - name: creating container
+            docker_container:
+                    name: test_os
+                    image: myos3
+                    state: started
+                    ports:
+                            - 8080:80
+                     
+
+
